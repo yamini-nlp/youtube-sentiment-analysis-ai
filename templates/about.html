@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+
+{% block navbar %}
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="{{url_for('index')}}" style="color: white;">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('about')}}" style="color: yellow; padding-left: 40px;">About</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('register')}}" style="color: white; padding-left: 40px;">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('login')}}" style="color: white; padding-left: 40px;">Login</a>
+        </li>
+    </ul>
+{% endblock %}
+               
+
+{% block content %}
+    <div class="banner_section layout_padding" style="display: flex; align-items: center; justify-content: center; height: 100vh; background-color: rgba(0, 0, 0, 0.63);">
+        <div class="container">
+            <div id="banner_slider" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row justify-content-center">
+                        <div class="banner_taital_main text-center" style="margin-top: -110px;">
+                            
+                            <h1 class="banner_taital" style="color: white;">About!</h1>
+                            <p class="banner_text" style="color: white; padding: 30px; text-align: justify;">
+                                The Sentiment Analysis for YouTube Comments using AI project is designed to classify and analyze the sentiments expressed in YouTube video comments using Natural Language Processing (NLP) and machine learning techniques. The system collects trending YouTube comments data from sources like Kaggle and preprocesses them by handling missing values, removing duplicates, and performing tasks such as tokenization, lemmatization, and stopword removal. Sentiment scores are generated using NLP, which classifies comments as positive, negative, or neutral. To achieve high accuracy, advanced AI models such as BERT, LSTM, and GRU are integrated for sentiment classification. The model is trained and evaluated using metrics such as accuracy, precision, recall, and F1-score to ensure robust performance. Once trained, the model is deployed within a web application where users can input a YouTube video URL, retrieve the associated comments, and visualize the sentiment distribution in the form of a graph displaying the percentage of positive, negative, and neutral comments. The project provides a user-friendly interface that enables easy sentiment analysis, making it useful for content creators, marketers, and casual users to gauge audience sentiment effectively. By automating the process of comment analysis, this system offers a scalable and efficient solution for understanding public opinion on YouTube videos
+                            </p>
+                            <h5 class="tasty_text">"Unlocking the Power of YouTube Comments: Harnessing AI to Understand Sentiment, Engage Audiences, and Drive Insights!"</h5>
+                            
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
