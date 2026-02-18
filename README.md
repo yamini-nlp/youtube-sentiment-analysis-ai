@@ -1,4 +1,4 @@
-# 🎥YouTube Sentiment Analysis Using AI
+# 🎥 YouTube Sentiment Analysis Using AI
 
 This project analyzes the sentiment of YouTube video comments and video transcripts using artificial intelligence and natural language processing techniques.
 
@@ -14,7 +14,7 @@ The system runs locally and provides an interactive web interface for analyzing 
 
 ---
 
-## 📁Project Structure
+## 📁 Project Structure
 
 ```
 Youtube_Sentiment_Analysis_AI/
@@ -51,7 +51,7 @@ Youtube_Sentiment_Analysis_AI/
 
 ---
 
-## ✨Features
+## ✨ Features
 
 * User registration and login system using MySQL
 * Fetches YouTube comments using YouTube Data API v3
@@ -63,7 +63,7 @@ Youtube_Sentiment_Analysis_AI/
 
 ---
 
-## 🛠️Technologies Used
+## 🛠️ Technologies Used
 
 ### ⚙️Backend
 
@@ -81,7 +81,7 @@ Youtube_Sentiment_Analysis_AI/
 * Scikit-learn 1.2.2
 * Matplotlib
 
-### 🧠Machine Learning
+### 🧠 Machine Learning
 
 * LSTM (Long Short-Term Memory) Neural Network
 * Keras Tokenizer
@@ -211,7 +211,7 @@ https://www.youtube.com/watch?v=9yJWo7jafv4
 
 ---
 
-## 📊Example Output
+## 📊 Example Output
 
 * Pie chart showing Positive, Negative, and Neutral sentiment distribution
 * Sentiment analysis results for YouTube comments
@@ -219,7 +219,7 @@ https://www.youtube.com/watch?v=9yJWo7jafv4
 
 ---
 
-## 🔮Future Improvements
+## 🔮 Future Improvements
 
 * Password hashing for enhanced security
 * Transformer-based sentiment models (e.g., BERT)
