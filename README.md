@@ -1,104 +1,162 @@
 # 🎥 YouTube Sentiment Analysis Using AI
 
-This project analyzes the sentiment of YouTube video comments and video transcripts using artificial intelligence and natural language processing techniques.
+An end-to-end machine learning system for analyzing sentiment in YouTube video comments and transcripts using deep learning and NLP techniques.
 
-It combines:
-
-* A Flask-based backend application
-* A MySQL database for user management
-* An LSTM deep learning model for comment sentiment classification
-* VADER (NLTK) for transcript sentiment analysis
-* Matplotlib visualizations for sentiment distribution
-
-The system runs locally and provides an interactive web interface for analyzing YouTube content.
+Built using Flask, MySQL, TensorFlow/Keras, and NLTK.
 
 ---
 
-## 📁 Project Structure
+## 1️⃣ Problem Statement
 
-```
-Youtube_Sentiment_Analysis_AI/
-│
-├── app.py
-├── requirements.txt
-├── db.sql
-│
-├── Models/
-│   └── lstm_sentiment_model.h5
-│
-├── Dataset/
-│   └── GBcomments.csv
-│
-├── templates/
-│   ├── index.html
-│   ├── login.html
-│   ├── register.html
-│   ├── home.html
-│   ├── comment.html
-│   ├── video.html
-│   └── about.html
-│
-├── static/
-│
-├── notebooks/
-│   ├── LSTM.ipynb
-│   ├── GRU.ipynb
-│   └── BERT.ipynb
-│
-├── README.md
-└── .gitignore
-```
+Online video platforms like YouTube generate massive volumes of user comments that reflect public opinion, audience engagement, and emotional reactions.
+
+Manually analyzing this content is inefficient and unscalable.
+
+This project aims to build a system that:
+
+* Automatically classifies YouTube comments into sentiment categories (Positive, Negative, Neutral)
+* Analyzes sentiment of video transcripts
+* Provides visual sentiment distribution insights
+* Integrates ML models into an interactive web application
 
 ---
 
-## ✨ Features
+## 2️⃣ Why It Matters
 
-* User registration and login system using MySQL
-* Fetches YouTube comments using YouTube Data API v3
-* Performs sentiment classification using a trained LSTM model
-* Extracts video transcripts using `youtube_transcript_api`
-* Performs transcript sentiment analysis using NLTK VADER
-* Displays sentiment distribution using dynamically generated pie charts
-* Local execution without external deployment
+Sentiment analysis of user-generated content is valuable for:
+
+* Content creators measuring audience feedback
+* Brand monitoring and reputation analysis
+* Public opinion research
+* Social media analytics
+
+This project demonstrates how deep learning models can be deployed in real-world content analysis systems.
 
 ---
 
-## 🛠️ Technologies Used
+## 3️⃣ Dataset
 
-### ⚙️Backend
+Primary dataset used for training:
 
-* Python 3.10.8
-* Flask
-* MySQL
-* mysql-connector-python
+* `GBcomments.csv`
+
+The dataset contains labeled YouTube comments used for supervised sentiment classification.
+
+Preprocessing included:
+
+* Text cleaning (regex-based filtering)
+* Stopword removal
+* Lemmatization
+* Tokenization
+* Sequence padding using Keras Tokenizer
+
+Transcript data is fetched dynamically using:
+
+* `youtube_transcript_api`
+
+Comment data is fetched using:
+
 * YouTube Data API v3
-* youtube_transcript_api
+
+---
+
+## 4️⃣ Methodology
+
+The system consists of two sentiment analysis pipelines:
+
+### A) Comment Sentiment Classification
+
+1. Fetch comments via YouTube Data API.
+2. Apply text preprocessing.
+3. Convert text to padded sequences.
+4. Pass sequences into trained LSTM model.
+5. Generate multi-class sentiment prediction.
+6. Aggregate results for visualization.
+
+### B) Transcript Sentiment Analysis
+
+1. Extract transcript using `youtube_transcript_api`.
+2. Apply VADER sentiment analysis.
+3. Compute overall sentiment distribution.
+4. Visualize results using Matplotlib.
+
+The application integrates:
+
+Frontend → Flask Backend → ML/NLP Processing → Visualization Output
+
+---
+
+## 5️⃣ Model Architecture
+
+### LSTM Model (Primary Model)
+
+* Embedding layer
+* LSTM layer
+* Dense layer
+* Softmax output layer (multi-class classification)
+
+Additional experimental notebooks include:
+
+* GRU-based model
+* BERT-based experimentation
+
+Model trained using:
+
 * TensorFlow 2.15.0
 * Keras 2.15.0
-* NLTK 3.9.1
-* NumPy 1.26.4
-* Pandas 2.2.2
-* Scikit-learn 1.2.2
-* Matplotlib
+* Cross-entropy loss
+* Multi-class classification
 
-### 🧠 Machine Learning
+Saved model file:
 
-* LSTM (Long Short-Term Memory) Neural Network
-* Keras Tokenizer
-* Sequence Padding
-* Multi-class Softmax Classification
-
-### 🧾NLP Processing
-
-* Tokenization
-* Stopword Removal
-* Lemmatization
-* Regex-based text cleaning
-* VADER Sentiment Analysis
+```
+Models/lstm_sentiment_model.h5
+```
 
 ---
 
-## 🚀Setup Instructions
+## 6️⃣ Results
+
+The trained LSTM model successfully classifies comments into:
+
+* Positive
+* Negative
+* Neutral
+
+The system provides:
+
+* Sentiment distribution pie charts
+* Individual comment sentiment predictions
+* Transcript-level sentiment analysis
+
+Experimental comparisons were conducted in Jupyter notebooks for LSTM, GRU, and BERT-based approaches.
+
+(Quantitative metrics can be referenced in the associated experimental notebooks.)
+
+---
+
+## 7️⃣ Limitations
+
+* Model trained on a specific dataset (GBcomments), limiting generalization.
+* No large-scale hyperparameter optimization performed.
+* BERT experimentation not fully integrated into production system.
+* Transcript analysis relies on lexicon-based VADER (rule-based).
+* Local deployment only (no cloud hosting).
+
+---
+
+## 8️⃣ Future Work
+
+* Integrate fine-tuned transformer-based models (e.g., BERT)
+* Deploy as a cloud-based scalable service
+* Add model evaluation dashboard (accuracy, F1-score visualization)
+* Improve database security (password hashing)
+* Containerize using Docker
+* Extend to multilingual sentiment analysis
+
+---
+
+## 9️⃣ How to Run
 
 ### 1. Clone the Repository
 
@@ -109,7 +167,7 @@ cd Youtube_Sentiment_Analysis_AI
 
 ---
 
-### 2. Create a Virtual Environment (Recommended)
+### 2. Create Virtual Environment
 
 ```bash
 python -m venv venv
@@ -129,14 +187,6 @@ pip install -r requirements.txt
 
 ### 4. Setup MySQL Database
 
-Login to MySQL:
-
-```bash
-mysql -u root -p
-```
-
-Create the database:
-
 ```sql
 CREATE DATABASE youtube;
 USE youtube;
@@ -149,7 +199,7 @@ CREATE TABLE users (
 );
 ```
 
-Or run the provided:
+Or run:
 
 ```bash
 source db.sql;
@@ -157,74 +207,40 @@ source db.sql;
 
 ---
 
-### 5. Add the Trained LSTM Model
+### 5. Add Trained Model
 
-Ensure the following file exists:
+Ensure:
 
 ```
 Models/lstm_sentiment_model.h5
 ```
 
-If not available, open `notebooks/LSTM.ipynb`, train the model, and run:
+If not available, train using `notebooks/LSTM.ipynb` and save:
 
 ```python
 model.save("lstm_sentiment_model.h5")
 ```
 
-Move the saved file into the `Models/` directory.
-
 ---
 
-### 6. Add Your YouTube API Key
+### 6. Add YouTube API Key
 
-In `app.py`, replace the API key:
+In `app.py`:
 
 ```python
 api_key = "YOUR_YOUTUBE_API_KEY"
 ```
 
-with your own YouTube Data API v3 key.
-
 ---
 
-### 7. Run the Application
+### 7. Run Application
 
 ```bash
 python app.py
 ```
 
-Open your browser:
+Visit:
 
 ```
 http://127.0.0.1:5000/
 ```
-
----
-
-## Sample YouTube Link Used
-
-Example:
-
-```
-https://www.youtube.com/watch?v=9yJWo7jafv4
-```
-
----
-
-## 📊 Example Output
-
-* Pie chart showing Positive, Negative, and Neutral sentiment distribution
-* Sentiment analysis results for YouTube comments
-* Sentiment distribution for video transcripts
-
----
-
-## 🔮 Future Improvements
-
-* Password hashing for enhanced security
-* Transformer-based sentiment models (e.g., BERT)
-* Docker containerization
-* REST API modularization
-* Enhanced frontend UI design
-* Export/download sentiment reports
-
