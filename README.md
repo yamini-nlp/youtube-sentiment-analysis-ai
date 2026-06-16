@@ -1,85 +1,45 @@
-# 🎥 YouTube Sentiment Analysis Using AI
+# 🎥 YouTube Sentiment Analysis
 
-![Stack](https://img.shields.io/badge/Stack-Python%20%7C%20Flask%20%7C%20TensorFlow%20%7C%20Keras%20%7C%20NLTK-1b2e2b?style=flat-square)
-![Model](https://img.shields.io/badge/Model-LSTM%20%7C%20GRU%20%7C%20BERT-d9c5b2?style=flat-square)
-![Database](https://img.shields.io/badge/Database-MySQL-4479a1?style=flat-square)
-![APIs](https://img.shields.io/badge/APIs-YouTube%20Data%20API%20v3-ff0000?style=flat-square)
-![Status](https://img.shields.io/badge/Status-Active-7ecb84?style=flat-square)
+> An end-to-end machine learning system for classifying sentiment in YouTube video comments and transcripts using deep learning and NLP, with a Flask web interface for interactive analysis.
 
-An end-to-end machine learning system for analyzing sentiment in YouTube video comments and transcripts using deep learning and NLP techniques.
-
-Built with **Flask** (Python) for the backend, **TensorFlow / Keras** for model training, and a **MySQL** database for user management.
+![Stack](https://img.shields.io/badge/Stack-Flask%20%7C%20TensorFlow%20%7C%20Keras-blue?style=flat-square)
+![NLP](https://img.shields.io/badge/NLP-NLTK%20%7C%20VADER-orange?style=flat-square)
+![DB](https://img.shields.io/badge/Database-MySQL-green?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Local%20Only-lightgrey?style=flat-square)
 
 ---
 
-## 1️⃣ Problem Statement
+## Overview
 
-Online video platforms like YouTube generate massive volumes of user comments that reflect public opinion, audience engagement, and emotional reactions. Manually analyzing this content is inefficient and unscalable.
+This project builds a sentiment analysis pipeline for YouTube content, combining an LSTM-based classifier for comment-level sentiment prediction with VADER-based transcript analysis. Users submit a YouTube URL and receive a sentiment distribution across Positive, Negative, and Neutral categories, rendered as visualisations in a Flask web application.
 
-This project builds a system that:
-
-- Automatically classifies YouTube comments into sentiment categories (Positive, Negative, Neutral)
-- Analyzes sentiment across full video transcripts
-- Provides visual sentiment distribution insights
-- Integrates trained ML models into an interactive web application
+> ⚠️ **Deployment note:** This application runs locally only. Cloud hosting and production hardening are identified as future work.
 
 ---
 
-## 2️⃣ Why It Matters
+## 🎯 Problem Statement
 
-Sentiment analysis of user-generated content has measurable value across multiple domains:
-
-- **Content creators** measuring authentic audience feedback and engagement signals
-- **Brand monitoring** and reputation analysis at scale
-- **Public opinion research** tracking sentiment shifts over time
-- **Social media analytics** platforms requiring automated classification pipelines
-
-This project demonstrates how deep learning models trained on real-world comment data can be deployed into production-grade content analysis systems, replacing manual review workflows with scalable automation.
+YouTube generates large volumes of user comments that reflect public opinion, audience engagement, and emotional reactions. Manually analysing this content is inefficient and unscalable. This project explores automated multi-class sentiment classification on real YouTube comment data, with comparison to lexicon-based transcript analysis.
 
 ---
 
-## 3️⃣ Dataset
+## 🏗️ Two-Pipeline Architecture
 
-**Primary Training Dataset**
+**Pipeline A — Comment Sentiment Classification**
 
-| Dataset | Format | Task |
-|---|---|---|
-| GBcomments.csv | Labeled YouTube comments | Supervised multi-class sentiment classification |
+1. Fetch comments via YouTube Data API v3
+2. Apply text preprocessing (regex cleaning, stopword removal, lemmatisation)
+3. Convert cleaned text to padded sequences using the trained tokeniser
+4. Pass sequences to the trained LSTM model
+5. Generate per-comment sentiment predictions
+6. Aggregate results and render visualisation
 
-**Dynamic Runtime Data**
+**Pipeline B — Transcript Sentiment Analysis**
 
-- Video transcripts fetched dynamically via `youtube_transcript_api`
-- Comment data retrieved in real time using **YouTube Data API v3**
-
-**Preprocessing Pipeline**
-
-- Text cleaning via regex-based filtering
-- Stopword removal
-- Lemmatization
-- Tokenization using Keras Tokenizer
-- Sequence padding to fixed input length
-
----
-
-## 4️⃣ Methodology
-
-The system consists of two independent sentiment analysis pipelines.
-
-**Pipeline A: Comment Sentiment Classification**
-
-1. Fetch comments via YouTube Data API.
-2. Apply text preprocessing (cleaning, stopword removal, lemmatization).
-3. Convert cleaned text to padded sequences using the trained tokenizer.
-4. Pass sequences into the trained LSTM model.
-5. Generate multi-class sentiment predictions per comment.
-6. Aggregate results and render visualization.
-
-**Pipeline B: Transcript Sentiment Analysis**
-
-1. Extract transcript using `youtube_transcript_api`.
-2. Apply VADER sentiment analysis on the full transcript text.
-3. Compute overall positive / negative / neutral distribution.
-4. Visualize results using Matplotlib.
+1. Extract transcript using `youtube_transcript_api`
+2. Apply VADER sentiment analysis on the full transcript text
+3. Compute overall positive / negative / neutral distribution
+4. Visualise results using Matplotlib
 
 ```
 User Input (YouTube URL)
@@ -91,153 +51,74 @@ User Input (YouTube URL)
             youtube_transcript_api → VADER → Sentiment Distribution
                     │
                     ▼
-          Flask Backend → Visualization Output → Frontend Rendering
+          Flask Backend → Matplotlib Visualisation → Frontend Rendering
 ```
 
 ---
 
-## 5️⃣ Model Architecture
+## ⚙️ Model Architecture
 
-**Primary Model: LSTM**
+**Primary model: LSTM**
 
 | Layer | Type |
 |---|---|
 | Input | Padded token sequences |
 | Embedding | Trainable embedding layer |
 | Recurrent | LSTM layer |
-| Output | Dense + Softmax (multi-class) |
-
-**Training Configuration**
+| Output | Dense + Softmax (Positive / Negative / Neutral) |
 
 | Parameter | Value |
 |---|---|
 | Framework | TensorFlow 2.15.0 / Keras 2.15.0 |
-| Loss Function | Categorical cross-entropy |
-| Task | Multi-class classification (Positive / Negative / Neutral) |
-| Saved Model | `Models/lstm_sentiment_model.h5` |
+| Loss function | Categorical cross-entropy |
+| Saved model | `Models/lstm_sentiment_model.h5` |
 
-**Additional Experimental Models**
-
-- GRU-based model (Jupyter notebook)
-- BERT-based experimentation (Jupyter notebook)
-
-Both were evaluated experimentally and are available in the associated notebooks for comparison.
+**Additional experimental models** (Jupyter notebooks only; not integrated into the application):
+- GRU-based model (`notebooks/GRU.ipynb`)
+- BERT-based experimentation (`notebooks/BERT.ipynb`)
 
 ---
 
-## 6️⃣ Results
+## 📋 Dataset
 
-The trained LSTM model successfully classifies YouTube comments into three sentiment categories: Positive, Negative, and Neutral.
+| Dataset | Format | Task |
+|---|---|---|
+| `GBcomments.csv` | Labelled YouTube comments | Supervised multi-class sentiment classification |
 
-**System Outputs**
-
-- Sentiment distribution pie charts per video
-- Individual comment-level sentiment predictions
-- Transcript-level overall sentiment analysis
-
-**Experimental Comparisons**
-
-LSTM, GRU, and BERT-based approaches were compared in Jupyter notebooks. LSTM demonstrated the best balance of training speed and classification performance on the GBcomments dataset.
-
-> Quantitative accuracy and F1-score metrics are available in the associated experimental notebooks.
+**Preprocessing pipeline:**
+1. Regex-based text cleaning
+2. Stopword removal
+3. Lemmatisation
+4. Tokenisation using Keras `Tokenizer`
+5. Sequence padding to fixed input length
 
 ---
 
-## 7️⃣ Limitations
+## ⚠️ Limitations
 
-- **Dataset Generalization:** Model trained on GBcomments dataset; performance may vary on comments from different regions or content niches.
-- **No Hyperparameter Optimization:** Large-scale tuning was not performed in this version.
-- **BERT Not Production-Integrated:** BERT experimentation was conducted in notebooks only and is not deployed in the live application.
-- **Rule-Based Transcript Analysis:** Transcript sentiment relies on lexicon-based VADER, which cannot capture contextual nuance.
-- **Local Deployment Only:** No cloud hosting; the application runs locally.
-- **Database Security:** Password hashing is not implemented in the current user management system.
+- **Dataset generalisation:** model trained on `GBcomments.csv`; performance may vary on comments from different regions or content niches
+- **No hyperparameter optimisation:** large-scale tuning was not performed
+- **BERT not integrated:** BERT experimentation was conducted in notebooks only and is not deployed in the application
+- **Lexicon-based transcript analysis:** VADER does not capture contextual nuance; qualitative accuracy on complex or ironic text is limited
+- **Local deployment only:** no cloud hosting; the application runs locally
+- **No quantitative test-set metrics reported:** accuracy and F1-score figures from notebook experiments are available in the associated notebooks but not reproduced here
+- **Password storage:** user passwords are stored without hashing in the current version — a known security deficiency, identified for remediation before any deployment
 
 ---
 
-## 8️⃣ Future Work
+## 🔭 Future Work
 
 - Integrate fine-tuned transformer models (BERT, RoBERTa) for improved comment classification
-- Deploy as a cloud-based scalable service (AWS / GCP / Azure)
-- Add a model evaluation dashboard with accuracy, F1-score, and confusion matrix visualization
-- Implement password hashing and improved database security
-- Containerize using Docker for consistent deployment
+- Deploy as a cloud-based scalable service
+- Add a model evaluation dashboard with accuracy, F1-score, and confusion matrix visualisation
+- Implement password hashing and improved database security before any deployment
+- Containerise using Docker for consistent deployment
 - Extend to multilingual comment sentiment analysis
 - Add time-series sentiment tracking for channels and creators over time
 
 ---
 
-## 9️⃣ How to Run
-
-**1. Clone the Repository**
-
-```bash
-git clone https://github.com/your-username/Youtube_Sentiment_Analysis_AI.git
-cd Youtube_Sentiment_Analysis_AI
-```
-
-**2. Create Virtual Environment**
-
-```bash
-python -m venv venv
-source venv/bin/activate   # Mac / Linux
-venv\Scripts\activate      # Windows
-```
-
-**3. Install Dependencies**
-
-```bash
-pip install -r requirements.txt
-```
-
-**4. Setup MySQL Database**
-
-```sql
-CREATE DATABASE youtube;
-USE youtube;
-
-CREATE TABLE users (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(1000),
-    email VARCHAR(1000),
-    password VARCHAR(225)
-);
-```
-
-Or run: `source db.sql`
-
-**5. Add Trained Model**
-
-Ensure `Models/lstm_sentiment_model.h5` is present. If not available, train using `notebooks/LSTM.ipynb` and save:
-
-```python
-model.save("lstm_sentiment_model.h5")
-```
-
-**6. Add YouTube API Key**
-
-In `app.py`:
-
-```python
-api_key = "YOUR_YOUTUBE_API_KEY"
-```
-
-**7. Run Application**
-
-```bash
-python app.py
-```
-
-Visit: `http://127.0.0.1:5000/`
-
----
-
-## 🔟 Conclusion
-
-This project demonstrates how deep learning models can be integrated into a real-world content analysis pipeline to automate sentiment classification at scale. By combining an LSTM-based comment classifier with VADER-based transcript analysis, the system provides dual-signal sentiment insights for any YouTube video. The architecture cleanly separates data ingestion, model inference, and frontend rendering — establishing a modular foundation for future improvements including transformer-based classification, cloud deployment, and multilingual support.
-
----
-
-## 🛠 Tech Stack
+## 🛠️ Tech Stack
 
 | Layer | Technology |
 |---|---|
@@ -246,5 +127,86 @@ This project demonstrates how deep learning models can be integrated into a real
 | NLP | NLTK, VADER |
 | Database | MySQL |
 | YouTube Data | YouTube Data API v3, youtube_transcript_api |
-| Visualization | Matplotlib |
+| Visualisation | Matplotlib |
 | Experimental Models | LSTM, GRU, BERT (Jupyter notebooks) |
+
+---
+
+## 🚀 Local Setup
+
+**Prerequisites:** Python 3.8+ · MySQL · YouTube Data API v3 key · LSTM model file
+
+**1. Clone**
+```bash
+git clone https://github.com/yamireddy04/Youtube_Sentiment_Analysis_AI.git
+cd Youtube_Sentiment_Analysis_AI
+```
+
+**2. Create virtual environment**
+```bash
+python -m venv venv
+source venv/bin/activate    # Windows: venv\Scripts\activate
+```
+
+**3. Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+**4. Set up MySQL database**
+```sql
+CREATE DATABASE youtube;
+USE youtube;
+
+CREATE TABLE users (
+    id       INT PRIMARY KEY AUTO_INCREMENT,
+    name     VARCHAR(1000),
+    email    VARCHAR(1000),
+    password VARCHAR(225)
+);
+```
+Or run: `source db.sql`
+
+**5. Add trained model**
+
+Ensure `Models/lstm_sentiment_model.h5` is present. If not available, train using `notebooks/LSTM.ipynb` and save:
+```python
+model.save("lstm_sentiment_model.h5")
+```
+
+**6. Add YouTube API key**
+
+In `app.py`:
+```python
+api_key = "YOUR_YOUTUBE_API_KEY"
+```
+
+**7. Run application**
+```bash
+python app.py
+```
+Visit `http://127.0.0.1:5000/`
+
+---
+
+## 📁 Repository Structure
+
+```
+Youtube_Sentiment_Analysis_AI/
+├── app.py                          # Flask application entry point
+├── Models/
+│   └── lstm_sentiment_model.h5     # Trained LSTM model
+├── notebooks/
+│   ├── LSTM.ipynb                  # LSTM training + evaluation
+│   ├── GRU.ipynb                   # GRU comparison experiment
+│   └── BERT.ipynb                  # BERT experimentation
+├── templates/                      # Flask HTML templates
+├── static/                         # CSS and JS assets
+├── db.sql                          # Database setup script
+├── requirements.txt
+└── README.md
+```
+
+---
+
+*Built by Yamini G &nbsp;·&nbsp; [GitHub](https://github.com/yamireddy04/Youtube_Sentiment_Analysis_AI)*
