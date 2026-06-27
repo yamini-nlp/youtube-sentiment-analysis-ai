@@ -138,7 +138,7 @@ User Input (YouTube URL)
 
 **1. Clone**
 ```bash
-git clone https://github.com/yamireddy04/Youtube_Sentiment_Analysis_AI.git
+git clone https://github.com/yamini-nlp/Youtube_Sentiment_Analysis_AI.git
 cd Youtube_Sentiment_Analysis_AI
 ```
 
