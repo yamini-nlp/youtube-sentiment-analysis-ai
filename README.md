@@ -251,7 +251,7 @@ youtube-sentiment-analysis-ai/
 Findings from this pipeline are documented in a preprint available on SSRN:
 
 > **YouTube Transcript vs Comment Sentiment** — dual-model pipeline documenting divergence patterns across five content domains; failure modes in public discourse analysis.
-> SSRN · [DOI](10.2139/ssrn.6344859) · [PDF](paper/youtube-sentiment-interpretability.pdf)
+> SSRN · [DOI](http://dx.doi.org/10.2139/ssrn.6344859) · [PDF](paper/youtube-sentiment-interpretability.pdf)
 
 ---
 
